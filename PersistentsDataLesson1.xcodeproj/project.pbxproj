@@ -12,6 +12,8 @@
 		7C5EB52E1FB9C86900505C83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C5EB52C1FB9C86900505C83 /* Main.storyboard */; };
 		7C5EB5301FB9C86900505C83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C5EB52F1FB9C86900505C83 /* Assets.xcassets */; };
 		7C5EB5331FB9C86900505C83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C5EB5311FB9C86900505C83 /* LaunchScreen.storyboard */; };
+		7C5EB53B1FB9C93A00505C83 /* data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7C5EB53A1FB9C93A00505C83 /* data.plist */; };
+		7C5EB53D1FB9CC9800505C83 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EB53C1FB9CC9800505C83 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		7C5EB52F1FB9C86900505C83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7C5EB5321FB9C86900505C83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7C5EB5341FB9C86900505C83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7C5EB53A1FB9C93A00505C83 /* data.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = data.plist; sourceTree = "<group>"; };
+		7C5EB53C1FB9CC9800505C83 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				7C5EB52F1FB9C86900505C83 /* Assets.xcassets */,
 				7C5EB5311FB9C86900505C83 /* LaunchScreen.storyboard */,
 				7C5EB5341FB9C86900505C83 /* Info.plist */,
+				7C5EB53A1FB9C93A00505C83 /* data.plist */,
+				7C5EB53C1FB9CC9800505C83 /* User.swift */,
 			);
 			path = PersistentsDataLesson1;
 			sourceTree = "<group>";
@@ -125,6 +131,7 @@
 			files = (
 				7C5EB5331FB9C86900505C83 /* LaunchScreen.storyboard in Resources */,
 				7C5EB5301FB9C86900505C83 /* Assets.xcassets in Resources */,
+				7C5EB53B1FB9C93A00505C83 /* data.plist in Resources */,
 				7C5EB52E1FB9C86900505C83 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +145,7 @@
 			files = (
 				7C5EB52B1FB9C86900505C83 /* ViewController.swift in Sources */,
 				7C5EB5291FB9C86900505C83 /* AppDelegate.swift in Sources */,
+				7C5EB53D1FB9CC9800505C83 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
