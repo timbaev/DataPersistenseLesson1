@@ -9,59 +9,63 @@
 import Foundation
 
 class NewsRepository: Repository {
-    static let instance = NewsRepository()
     
-    typealias T = News
-    private var news = [Int : News]()
-    var currentID = 1
+    @objc private var news = [News]()
+    @objc var currentID = 1
+    
+    init() {
+        let savedCurrentID = UserDefaults.standard.integer(forKey: #keyPath(NewsRepository.currentID))
+        if (savedCurrentID != 0) {
+            currentID = savedCurrentID
+        }
+        if let newsData = UserDefaults.standard.data(forKey: #keyPath(NewsRepository.news)) {
+            news = News.unarchive(with: newsData) ?? [News]()
+        }
+    }
     
     func syncSave(with news: News) {
-        self.news[currentID] = news
+        news.id = currentID
+        self.news.append(news)
         currentID += 1
+        saveData()
     }
     
     func asyncSave(with news: News, completionBlock: @escaping (Bool) -> ()) {
         let operationQueue = OperationQueue()
         operationQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.news[strongSelf.currentID] = news
-            strongSelf.currentID += 1
+            strongSelf.syncSave(with: news)
             completionBlock(true)
         }
     }
     
     func syncGetAll() -> [News] {
-        let sortedNews = news.sorted(by: { $0.0 < $1.0 })
-        var newsArray = [News]()
-        sortedNews.forEach { newsArray.append($0.value) }
-        return newsArray
+        return news
     }
     
     func asyncGetAll(completionBlock: @escaping ([News]) -> ()) {
         let operationQueue = OperationQueue()
         operationQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
-            let newsResult = strongSelf.syncGetAll()
-            completionBlock(newsResult)
+            completionBlock(strongSelf.news)
         }
     }
     
     func syncSearch(id: Int) -> News? {
-        if let resultNews = news[id] {
-            return resultNews
-        }
-        return nil
+        return news.first(where: { $0.id == id })
     }
     
     func asyncSearch(id: Int, completionBlock: @escaping (News?) -> ()) {
         let operationQueue = OperationQueue()
         operationQueue.addOperation { [weak self] in
             guard let strongSelf = self else { return }
-            if let resultNews = strongSelf.news[id] {
-                completionBlock(resultNews)
-            }
-            completionBlock(nil)
+            completionBlock(strongSelf.syncSearch(id: id))
         }
+    }
+    
+    private func saveData() {
+        UserDefaults.standard.set(News.archive(news), forKey: #keyPath(NewsRepository.news))
+        UserDefaults.standard.set(currentID, forKey: #keyPath(NewsRepository.currentID))
     }
     
 }

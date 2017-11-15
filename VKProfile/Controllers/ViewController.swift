@@ -64,10 +64,12 @@ class ViewController: UITableViewController, CreateNewsDelegate, UICollectionVie
     let imageHeight: CGFloat = 97
     
     var userVK: UserVK!
+    var newsRepository: Repository!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         user = generateUser()
+        newsRepository = NewsRepository()
         
         infoButtonsCollectionView.delegate = self
         prepareCollectionViews()
@@ -119,23 +121,28 @@ class ViewController: UITableViewController, CreateNewsDelegate, UICollectionVie
     }
     
     @objc private func refresh() {
-        news = NewsRepository.instance.syncGetAll()
+        news = newsRepository.syncGetAll()
         self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
     }
     
     private func createNews() {
+        let demoNewsCreatedKey = "demoNewsCreated"
+        guard !UserDefaults.standard.bool(forKey: demoNewsCreatedKey) else { return }
+        
         let news1 = News(text: newsText1, image: user.photos[0], likeCount: 72, commentCount: 8, respostCount: 16)
         let news2 = News(text: newsText2, image: user.photos[1], likeCount: 5, commentCount: 17, respostCount: 48)
         let news3 = News(text: newsText3, image: user.photos[2], likeCount: 77, commentCount: 39, respostCount: 2)
         
-        NewsRepository.instance.syncSave(with: news1)
-        NewsRepository.instance.syncSave(with: news2)
-        NewsRepository.instance.syncSave(with: news3)
+        newsRepository.syncSave(with: news1)
+        newsRepository.syncSave(with: news2)
+        newsRepository.syncSave(with: news3)
+        
+        UserDefaults.standard.set(true, forKey: demoNewsCreatedKey)
     }
     
     private func loadNews() {
-        news = NewsRepository.instance.syncGetAll()
+        news = newsRepository.syncGetAll()
     }
     
     override func viewDidLayoutSubviews() {
@@ -199,13 +206,9 @@ class ViewController: UITableViewController, CreateNewsDelegate, UICollectionVie
     }
     
     func createNews(from newsData: News) {
-        NewsRepository.instance.asyncGetAll { [weak self] (news) in
-            guard let strongSelf = self else { return }
-            strongSelf.news = news
-            DispatchQueue.main.async {
-                strongSelf.tableView.reloadData()
-            }
-        }
+        news.append(newsData)
+        tableView.reloadData()
+        newsRepository.syncSave(with: newsData)
     }
     
     @IBAction func onMoreClick(_ sender: UIBarButtonItem) {
@@ -250,7 +253,7 @@ class ViewController: UITableViewController, CreateNewsDelegate, UICollectionVie
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let offset = 1
-        performSegue(withIdentifier: detailsNewsSegue, sender: NewsRepository.instance.currentID - offset - indexPath.row)
+        performSegue(withIdentifier: detailsNewsSegue, sender: newsRepository.currentID - offset - indexPath.row)
     }
     
     //MARK: - CollectionView methods

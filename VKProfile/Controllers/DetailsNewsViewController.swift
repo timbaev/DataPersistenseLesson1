@@ -14,11 +14,13 @@ class DetailsNewsViewController: UIViewController {
     @IBOutlet weak var photoImageView: UIImageView!
     
     var newsID: Int!
+    var newsRepository: Repository!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        newsRepository = NewsRepository()
         
-        NewsRepository.instance.asyncSearch(id: newsID) { [weak self] (resultNews) in
+        newsRepository.asyncSearch(id: newsID) { [weak self] (resultNews) in
             guard let selfStrong = self else { return }
             if let news = resultNews {
                 DispatchQueue.main.async {

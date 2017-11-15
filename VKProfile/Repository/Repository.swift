@@ -9,13 +9,13 @@
 import Foundation
 
 protocol Repository {
-    associatedtype T
+    var currentID: Int { set get }
     
-    func syncSave(with: T)
-    func asyncSave(with: T, completionBlock: @escaping (Bool) -> ())
-    func syncGetAll() -> [T]
-    func asyncGetAll(completionBlock: @escaping ([T]) -> ())
-    func syncSearch(id: Int) -> T?
-    func asyncSearch(id: Int, completionBlock: @escaping (T?) -> ())
+    func syncSave(with: News)
+    func asyncSave(with: News, completionBlock: @escaping (Bool) -> ())
+    func syncGetAll() -> [News]
+    func asyncGetAll(completionBlock: @escaping ([News]) -> ())
+    func syncSearch(id: Int) -> News?
+    func asyncSearch(id: Int, completionBlock: @escaping (News?) -> ())
     
 }

@@ -12,7 +12,9 @@ class UserRepository {
     
     static let instance = UserRepository()
     
-    private var users = [UserVK]()
+    private var users = [
+        UserVK(name: "Тимур", surname: "Шафигуллин", email: "iOSDeveloper@icloud.com", phoneNumber: "+79172513599", age: 19, city: "Казань", password: "qwe")
+    ]
     
     func register(_ user: UserVK) {
         users.append(user)
